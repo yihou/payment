@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Payment\Exceptions;
+namespace PaymentGateway\Exceptions;
 
 use Exception;
 

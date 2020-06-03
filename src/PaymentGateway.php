@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Payment;
+namespace PaymentGateway;
 
 /**
  * Interface PaymentGateway.

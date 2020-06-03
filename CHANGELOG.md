@@ -1,6 +1,6 @@
 # Changelog
 
-All Notable changes to `spatie/payment` will be documented in this file
+All Notable changes to `yihou/payment` will be documented in this file
 
 ## 2.0.1
 - Config fix

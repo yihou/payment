@@ -1,11 +1,11 @@
 <?php
 
-namespace Spatie\Payment\Gateways\Europabank;
+namespace PaymentGateway\Gateways\Ipay88;
 
-use Validator;
-use Spatie\Payment\Exceptions\PaymentVerificationFailedException;
+use Illuminate\Validation\Validator;
+use PaymentGateway\Exceptions\PaymentVerificationFailedException;
 
-class PaymentGatewayResponseValidator
+class Ipay88ResponseValidator
 {
     protected $currentOrderId;
     protected $gatewayResponse;
@@ -16,12 +16,16 @@ class PaymentGatewayResponseValidator
         $this->gatewayResponse = $gatewayResponse;
     }
 
+    /**
+     * @return bool
+     * @throws PaymentVerificationFailedException
+     */
     public function validate()
     {
         $this->doesGatewayResponseHaveAllNecessaryFields();
-        $this->validateUid();
+//        $this->validateUid();
         $this->validateOrderId();
-        $this->validateHash();
+//        $this->validateHash();
 
         return true;
     }
@@ -47,17 +51,17 @@ class PaymentGatewayResponseValidator
         }
     }
 
-    /**
-     * Validate the uid.
-     *
-     * @throws PaymentVerificationFailedException
-     */
-    private function validateUid()
-    {
-        if ($this->gatewayResponse['Uid'] != config('payment.europabank.uid')) {
-            throw new PaymentVerificationFailedException('Uid was not correct');
-        }
-    }
+//    /**
+//     * Validate the uid.
+//     *
+//     * @throws PaymentVerificationFailedException
+//     */
+//    private function validateUid()
+//    {
+//        if ($this->gatewayResponse['Uid'] != config('payment.europabank.uid')) {
+//            throw new PaymentVerificationFailedException('Uid was not correct');
+//        }
+//    }
 
     /**
      * Validate if the order id from the gatewayresponse is equal to the current order id.
@@ -69,34 +73,5 @@ class PaymentGatewayResponseValidator
         if ($this->gatewayResponse['Orderid'] != $this->currentOrderId) {
             throw new PaymentVerificationFailedException('The order id from the gateway response was not equal to the current order id');
         }
-    }
-
-    /**
-     * Verify if the hash value given by the gateway matched the hash calculated
-     * from the gateway response.
-     *
-     * @throws PaymentVerificationFailedException
-     */
-    private function validateHash()
-    {
-        if ($this->gatewayResponse['Hash'] != $this->computeHash()) {
-            throw new PaymentVerificationFailedException('The hash value given by the gateway does not match the hash calculated from the gateway response');
-        }
-    }
-
-    /**
-     * Compute the hash for the gateway response.
-     *
-     * @return string
-     */
-    private function computeHash()
-    {
-        return strtoupper(
-            sha1(
-                $this->gatewayResponse['Id'].
-                $this->gatewayResponse['Orderid'].
-                config('payment.europabank.clientSecret')
-            )
-        );
     }
 }

@@ -1,12 +1,11 @@
 {
-    "name": "spatie/payment",
+    "name": "yihou/payment",
     "license": "MIT",
-    "homepage": "https://github.com/spatie/payment",
-    "description": "A Laravel 5 package to verify and accept payments from payment gateways",
+    "homepage": "https://github.com/yihou/payment",
+    "description": "A Laravel package to verify and accept payments from payment gateways",
     "keywords": [
         "payment",
         "gateway",
-        "europabank",
         "e-commerce",
         "webshop",
         "financial",
@@ -14,8 +13,8 @@
     ],
     "authors": [
         {
-            "name": "Freek Van der Herten",
-            "email": "freek@spatie.be"
+            "name": "Loo Yi Hou",
+            "email": "looyihou91@gmail.com"
         }
     ],
     "require": {
@@ -25,8 +24,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Spatie\\Payment\\": "src/"
+            "PaymentGateway\\": "src/"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "require-dev": {
+        "codeception/codeception": "^4.1",
+        "symfony/phpunit-bridge": "^5.1"
+    }
 }

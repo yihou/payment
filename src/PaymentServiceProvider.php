@@ -1,17 +1,16 @@
 <?php
 
-namespace Spatie\Payment;
+namespace PaymentGateway;
 
 use Illuminate\Support\ServiceProvider;
-use Spatie\Payment\Gateways\Europabank\PaymentGateway as EuropabankPaymentGateway;
+use PaymentGateway\Gateways\Ipay88\Ipay88PaymentGateway;
 
 class PaymentServiceProvider extends ServiceProvider
 {
     public function boot()
     {
 	$this->mergeConfigFrom(__DIR__.'/../config/payment.php', 'payment');
-
-        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'payment');
+    $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'payment');
 
 	$this->publishes([
 		__DIR__.'/../resources/lang' => base_path('resources/lang/vendor/payment'),
@@ -24,6 +23,6 @@ class PaymentServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app->bind(PaymentGateway::class, EuropabankPaymentGateway::class);
+        $this->app->bind(PaymentGateway::class, Ipay88PaymentGateway::class);
     }
 }

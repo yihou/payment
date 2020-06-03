@@ -1,13 +1,13 @@
 <?php
 
-namespace Spatie\Payment\Gateways\Europabank;
+namespace PaymentGateway\Gateways\Ipay88;
 
-use Spatie\Payment\PayableOrder;
-use Spatie\Payment\PaymentGateway as PaymentGatewayInterface;
-use Input;
-use View;
+use PaymentGateway\PayableOrder;
+use PaymentGateway\PaymentGateway as PaymentGatewayInterface;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\View;
 
-class PaymentGateway implements PaymentGatewayInterface
+class Ipay88PaymentGateway implements PaymentGatewayInterface
 {
     protected $order;
 
@@ -28,6 +28,7 @@ class PaymentGateway implements PaymentGatewayInterface
     /**
      * Get the payment form.
      *
+     * @param array $attributes
      * @return string
      */
     public function getPaymentForm($attributes = [])
@@ -50,11 +51,11 @@ class PaymentGateway implements PaymentGatewayInterface
     private function calculatePaymentFormHash(PayableOrder $order)
     {
         return sha1(
-            config('payment.europabank.uid').
+            config('payment.ipay88.merchantKey').
             $order->getPaymentOrderId().
             $order->getPaymentAmount().
             $order->getPaymentDescription().
-            config('payment.europabank.clientSecret')
+            config('payment.ipay88.merchantCode')
         );
     }
 
@@ -70,7 +71,7 @@ class PaymentGateway implements PaymentGatewayInterface
     {
         $gatewayResponse = $gatewayResponse ?: Input::all();
 
-        return (new PaymentGatewayResponseValidator($orderId, $gatewayResponse))->validate();
+        return (new Ipay88ResponseValidator($orderId, $gatewayResponse))->validate();
     }
 
     /**
